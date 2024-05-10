@@ -15,6 +15,7 @@ class Main:
         self.board = Board(rows=8, cols=7)  # Example, adjust as needed
         self.next_ball = None
         self.scores = 0  # Initialize scores
+        self.game_over = False
         self.setup_game()
 
     def setup_game(self):
@@ -27,6 +28,7 @@ class Main:
                 button.clicked.connect(lambda checked=False, column=col1: self.handle_button_click(column))
 
         self.update_info()
+        self.window.restart_button.clicked.connect(lambda checked: self.restart())
 
         # Run the game
         self.window.show()
@@ -60,7 +62,7 @@ class Main:
         self.window.scores_label.setText(f"Scores: {self.scores}")
 
     def handle_button_click(self, col):
-        if self.board.grid[1][col] is not None:
+        if self.board.grid[1][col] is not None or self.game_over:
             return  # Ignore if the top row is occupied
 
         self.board.drop_ball(self.next_ball, col)
@@ -74,8 +76,8 @@ class Main:
 
         # Check for game over
         if self.board.is_game_over():
-            print("Game Over!")
-            sys.exit()
+            self.window.restart_button.setText("Game over. Restart")
+            self.game_over = True
 
     def start_falling_ball(self):
         value = random.randint(1, 7)
@@ -88,6 +90,14 @@ class Main:
     def update_scores(self, scores):
         self.scores += scores
         self.window.scores_label.setText(f"Scores: {self.scores}")
+
+    def restart(self):
+        self.board = Board(rows=8, cols=7)
+        self.window.restart_button.setText("Restart")
+        self.game_over = False
+        self.scores = 0
+        self.start_falling_ball()
+        self.update_info()
 
 
 if __name__ == "__main__":

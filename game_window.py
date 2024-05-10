@@ -78,6 +78,8 @@ class GameWindow(QMainWindow):
         rules_button = QPushButton("Rules")
         rules_button.clicked.connect(self.open_rules)
         layout.addWidget(rules_button, 11, 2, 1, 2)
+        self.restart_button = QPushButton("Restart")
+        layout.addWidget(self.restart_button, 11, 4, 1, 2)
 
     def init_stylesheets(self):
         dark_mode_stylesheet = """
