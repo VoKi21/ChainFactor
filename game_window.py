@@ -15,6 +15,7 @@ class ClickableLabel(QLabel):
 class GameWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.settings_window = SettingsWindow(self)
         self.table = None
         self.falling_ball_label = None
         self.level_label = None
@@ -24,6 +25,7 @@ class GameWindow(QMainWindow):
         self.setWindowTitle("PyQt6 Chain Factor Game")
         self.setMinimumSize(425, 510)  # Set minimum size
         self.setMaximumSize(425, 510)  # Set maximum size
+        self.default_background = "#FFFFFF"
         self.init_ui()
 
     def init_ui(self):
@@ -41,7 +43,7 @@ class GameWindow(QMainWindow):
                 label = ClickableLabel()
                 label.setFixedSize(60, 60)  # Set fixed size for consistent layout
                 label.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Center align text
-                label.setStyleSheet("background-color: #FFFFFF; border: 1px solid black")  # Styling
+                label.setStyleSheet(f"background-color: {self.default_background}; border: 1px solid black")  # Styling
                 layout.addWidget(label, row, col)
                 row_labels.append(label)
             self.table.append(row_labels)
@@ -87,11 +89,7 @@ class GameWindow(QMainWindow):
                 background-color: #333333;
                 color: white;
             }
-            QLabel, QPushButton, QProgressBar {
-                background-color: #333333;
-                color: white;
-                border: 1px solid white;
-            }
+            
             QPushButton:hover {
                 background-color: #666666;
             }
@@ -101,11 +99,7 @@ class GameWindow(QMainWindow):
                 background-color: #FFFFFF;
                 color: black;
             }
-            QLabel, QPushButton, QProgressBar {
-                background-color: #FFFFFF;
-                color: black;
-                border: 1px solid black;
-            }
+            
             QPushButton:hover {
                 background-color: #DDDDDD;
             }
@@ -118,9 +112,9 @@ class GameWindow(QMainWindow):
 
     def apply_bright_mode(self):
         self.setStyleSheet(self.bright_mode_stylesheet)
+
     def open_settings(self):
-        settings_window = SettingsWindow(self)
-        settings_window.exec()
+        self.settings_window.exec()
 
     def open_rules(self):
         rules_window = RulesWindow(self)
@@ -154,9 +148,11 @@ class SettingsWindow(QDialog):
 
         # Apply color scheme
         if color_scheme == "dark":
+            self.parent.default_background = "#333333"
             self.apply_dark_mode()
             self.parent.apply_dark_mode()
         else:
+            self.parent.default_background = "#FFFFFF"
             self.apply_bright_mode()
             self.parent.apply_bright_mode()
 

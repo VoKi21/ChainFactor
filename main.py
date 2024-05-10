@@ -16,6 +16,7 @@ class Main:
         self.next_ball = None
         self.scores = 0  # Initialize scores
         self.game_over = False
+        self.colors = ["#FF0000", "#FF8800", "#FFFF00", "#00FF00", "#00FFFF", "#6666FF", "#FF00FF"]
         self.setup_game()
 
     def setup_game(self):
@@ -29,6 +30,7 @@ class Main:
 
         self.update_info()
         self.window.restart_button.clicked.connect(lambda checked: self.restart())
+        self.window.settings_window.finished.connect(lambda checked: self.update_info())
 
         # Run the game
         self.window.show()
@@ -39,14 +41,17 @@ class Main:
             for col in range(self.board.cols):
                 ball = self.board.grid[row][col]
                 text = ""
+                style = f"background-color: {self.window.default_background}; border: 1px solid black;"
                 if ball:
                     if ball.protection == 1:
-                        text = "X"
+                        style = "background-color: gray; ; border-radius: 30%;"
                     elif ball.protection == 2:
-                        text = "0"
+                        style = "background-color: black; border-radius: 30%;"
                     else:
                         text = ball.value
+                        style = f"background-color: {self.colors[ball.value - 1]}; border: 1px solid black; border-radius: 30%;"
                 self.window.table[row - 1][col].setText(str(text))
+                self.window.table[row - 1][col].setStyleSheet(style)
 
         # Clear previous text on labels
         self.window.level_label.clear()
@@ -77,6 +82,7 @@ class Main:
         # Check for game over
         if self.board.is_game_over():
             self.window.restart_button.setText("Game over. Restart")
+            self.window.restart_button.setStyleSheet(f"background-color: {self.colors[0]};")
             self.game_over = True
 
     def start_falling_ball(self):
@@ -86,6 +92,7 @@ class Main:
         self.window.falling_ball_label.setText(
             f"Falling ball: {0 if self.next_ball.protection > 0 else self.next_ball.value}"
         )
+        self.window.falling_ball_label.setStyleSheet(f"background-color: {self.colors[self.next_ball.value - 1] if self.next_ball.protection == 0 else ""};")
 
     def update_scores(self, scores):
         self.scores += scores
@@ -94,6 +101,7 @@ class Main:
     def restart(self):
         self.board = Board(rows=8, cols=7)
         self.window.restart_button.setText("Restart")
+        self.window.restart_button.setStyleSheet("")
         self.game_over = False
         self.scores = 0
         self.start_falling_ball()
