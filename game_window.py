@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QGridLayout, QWidget, QMainWindow, QLabel, QProgressBar, QPushButton, QTextBrowser, \
-    QVBoxLayout, QSpinBox, QDialog, QHBoxLayout, QCheckBox
+    QVBoxLayout, QDialog, QHBoxLayout, QCheckBox
 from PyQt6.QtCore import Qt, pyqtSignal
 
 class ClickableLabel(QLabel):
@@ -21,7 +21,7 @@ class GameWindow(QMainWindow):
         self.drops_label = None
         self.progress_bar = None
         self.scores_label = None
-        self.setWindowTitle("PyQt6 Ball Game")
+        self.setWindowTitle("PyQt6 Chain Factor Game")
         self.setMinimumSize(425, 510)  # Set minimum size
         self.setMaximumSize(425, 510)  # Set maximum size
         self.init_ui()
@@ -181,9 +181,9 @@ class RulesWindow(QDialog):
         self.setMinimumSize(800, 600)
 
         rules_text = """
-        <h1>Ball Game Rules</h1>
+        <h1>Chain Factor Game Rules</h1>
         <p>
-            Welcome to the Ball Game! The objective of the game is to clear balls from the game board and earn points.
+            Welcome to the Chain Factor! The objective of the game is to clear balls from the game board and earn points.
         </p>
         <h2>How to Play</h2>
         <p>
