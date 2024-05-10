@@ -106,7 +106,10 @@ class Board:
         for col in range(self.cols):
             if self.grid[0][col] is not None:
                 return True
-        return False
+        for col in range(self.cols):
+            if self.grid[1][col] is None:
+                return False
+        return True
 
     def drop_ball(self, ball, col):
         if self.grid[0][col] is None:
