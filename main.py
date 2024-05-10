@@ -24,7 +24,7 @@ class Main:
             for col in range(self.board.cols):
                 button = self.window.table[row - 1][col]
                 col1 = col
-                button.clicked.connect(lambda checked, column=col1: self.handle_button_click(column))
+                button.clicked.connect(lambda checked=False, column=col1: self.handle_button_click(column))
 
         self.update_info()
 
