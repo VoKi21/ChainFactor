@@ -93,6 +93,7 @@ class Board:
         for r, c in [(row + 1, col), (row - 1, col), (row, col + 1), (row, col - 1)]:
             if 0 <= r < self.rows and 0 <= c < self.cols and self.grid[r][c] is not None:
                 self.grid[r][c].protection -= 1
+        self.gravitation()
 
     def next_level(self):
         self.current_level += 1

@@ -12,16 +12,15 @@ class Main:
     def __init__(self):
         self.app = QApplication(sys.argv)
         self.window = GameWindow()
-        self.board = Board(rows=8, cols=7)  # Example, adjust as needed
+        self.board = Board(rows=8, cols=7)
         self.next_ball = None
-        self.scores = 0  # Initialize scores
+        self.scores = 0
         self.game_over = False
         self.colors = ["#FF0000", "#FF8800", "#FFFF00", "#00FF00", "#00FFFF", "#6666FF", "#FF00FF"]
         self.setup_game()
 
     def setup_game(self):
         self.start_falling_ball()
-        # Connect signals and slots
         for row in range(self.board.rows):
             for col in range(self.board.cols):
                 button = self.window.table[row - 1][col]
@@ -32,7 +31,6 @@ class Main:
         self.window.restart_button.clicked.connect(lambda checked: self.restart())
         self.window.settings_window.finished.connect(lambda checked: self.update_info())
 
-        # Run the game
         self.window.show()
         sys.exit(self.app.exec())
 
@@ -53,26 +51,23 @@ class Main:
                 self.window.table[row - 1][col].setText(str(text))
                 self.window.table[row - 1][col].setStyleSheet(style)
 
-        # Clear previous text on labels
         self.window.level_label.clear()
         self.window.drops_label.clear()
 
-        # Update level label and drops label
         self.window.level_label.setText(f"Level {self.board.current_level}")
         self.window.drops_label.setText(f"{self.board.drop_count} drops left")
         self.window.progress_bar.setRange(0, self.board.max_drop_count)
         self.window.progress_bar.setValue(self.board.drop_count)
 
-        # Update scores label
         self.window.scores_label.setText(f"Scores: {self.scores}")
 
     def handle_button_click(self, col):
         if self.board.grid[1][col] is not None or self.game_over:
-            return  # Ignore if the top row is occupied
+            return
 
         self.board.drop_ball(self.next_ball, col)
 
-        self.update_scores(self.board.check_matches())  # Update scores based on removed balls
+        self.update_scores(self.board.check_matches())
         if self.board.drop_count <= 0:
             self.board.next_level()
             self.update_scores(100 + self.board.check_matches())
@@ -92,7 +87,8 @@ class Main:
         self.window.falling_ball_label.setText(
             f"Falling ball: {0 if self.next_ball.protection > 0 else self.next_ball.value}"
         )
-        self.window.falling_ball_label.setStyleSheet(f"background-color: {self.colors[self.next_ball.value - 1] if self.next_ball.protection == 0 else ""};")
+        self.window.falling_ball_label.setStyleSheet(
+            f"background-color: {self.colors[self.next_ball.value - 1] if self.next_ball.protection == 0 else ""};")
 
     def update_scores(self, scores):
         self.scores += scores
