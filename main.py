@@ -47,7 +47,8 @@ class Main:
                         style = "background-color: black; border-radius: 30%;"
                     else:
                         text = ball.value
-                        style = f"background-color: {self.colors[ball.value - 1]}; border: 1px solid black; border-radius: 30%;"
+                        style = (f"background-color: {self.colors[ball.value - 1]};"
+                                 f" border: 1px solid black; border-radius: 30%;")
                 self.window.table[row - 1][col].setText(str(text))
                 self.window.table[row - 1][col].setStyleSheet(style)
 
