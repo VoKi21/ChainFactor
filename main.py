@@ -42,13 +42,13 @@ class Main:
                 style = f"background-color: {self.window.default_background}; border: 1px solid black;"
                 if ball:
                     if ball.protection == 1:
-                        style = "background-color: gray; ; border-radius: 30%;"
+                        style = "background-color: gray; border-radius: 30%;"
                     elif ball.protection == 2:
                         style = "background-color: black; border-radius: 30%;"
                     else:
                         text = ball.value
                         style = (f"background-color: {self.colors[ball.value - 1]};"
-                                 f" border: 1px solid black; border-radius: 30%;")
+                                 f" border: 1px solid black; border-radius: 30%; color: black")
                 self.window.table[row - 1][col].setText(str(text))
                 self.window.table[row - 1][col].setStyleSheet(style)
 
@@ -75,7 +75,6 @@ class Main:
         self.start_falling_ball()
         self.update_info()
 
-        # Check for game over
         if self.board.is_game_over():
             self.window.restart_button.setText("Game over. Restart")
             self.window.restart_button.setStyleSheet(f"background-color: {self.colors[0]};")
